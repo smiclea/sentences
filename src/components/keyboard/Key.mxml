@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 currentState="normal" 
+		 touchBegin="touchBeginHandler(event)"
+		 touchEnd="touchEndHandler(event)"
+		 touchOut="touchOutHandler(event)"
+		 width="80" 
+		 height="80">
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="clicked" />
+	</s:states>
+	
+	<s:Rect width="100%" height="100%">
+		<s:stroke>
+			<s:SolidColorStroke color="black" color.clicked="white" />
+		</s:stroke>
+		<s:fill>
+			<s:SolidColor color="white" color.clicked="black" />
+		</s:fill> 
+	</s:Rect>
+	
+	<s:VGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" >
+		<s:Label text="{key}" paddingTop="5" fontSize="50" color.clicked="white" />
+	</s:VGroup>
+	
+	<fx:Script>
+		<![CDATA[
+			
+			[Bindable]
+			public var key :String;
+			
+			protected function touchBeginHandler(event:Event):void
+			{
+				setCurrentState("clicked");
+			}
+			
+			protected function touchEndHandler(event:Event):void
+			{
+				setCurrentState("normal");
+			}
+			
+			protected function touchOutHandler(event:TouchEvent):void
+			{
+				setCurrentState("normal");
+			}
+			
+		]]>
+	</fx:Script>
+</s:Group>
