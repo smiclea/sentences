@@ -2,11 +2,16 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 currentState="normal" 
+		 click="clickHandler(event)"
 		 touchBegin="touchBeginHandler(event)"
 		 touchEnd="touchEndHandler(event)"
 		 touchOut="touchOutHandler(event)"
 		 width="400" 
 		 height="80">
+	
+	<fx:Metadata>
+		[Event(name="keyPressed", type="model.events.KeyEvent")]
+	</fx:Metadata>
 	
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
@@ -17,17 +22,27 @@
 		<s:State name="clicked" />
 	</s:states>
 	
-	<s:Rect width="100%" height="100%">
+	<s:Rect width="100%" 
+			height="100%" 
+			radiusX="10"
+			radiusY="10">
+		
 		<s:stroke>
-			<s:SolidColorStroke color="black" color.clicked="white" />
+			<s:SolidColorStroke pixelHinting="true" 
+								color="{styleManager.getStyleDeclaration('spark.components.Label').getStyle('color')}"/>
 		</s:stroke>
 		<s:fill>
-			<s:SolidColor color="white" color.clicked="black" />
+			<s:SolidColor alpha="0"
+						  alpha.clicked="1"
+						  color.clicked="{styleManager.getStyleDeclaration('spark.components.Label').getStyle('color')}" />
 		</s:fill> 
+		
 	</s:Rect>
 	
 	<fx:Script>
 		<![CDATA[
+			import model.Settings;
+			import model.events.KeyEvent;
 			
 			protected function touchBeginHandler(event:Event):void
 			{
@@ -37,11 +52,22 @@
 			protected function touchEndHandler(event:Event):void
 			{
 				setCurrentState("normal");
+				
+				dispatchEvent(new KeyEvent(KeyEvent.KEY_PRESSED, " "));
 			}
 			
 			protected function touchOutHandler(event:TouchEvent):void
 			{
 				setCurrentState("normal");
+			}
+			
+			protected function clickHandler(event:MouseEvent):void
+			{
+				if (!Settings.simulator)
+					return;
+				
+				setCurrentState("clicked");
+				dispatchEvent(new KeyEvent(KeyEvent.KEY_PRESSED, " "))
 			}
 			
 		]]>

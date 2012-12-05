@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		actionBarVisible="false"
+		creationComplete="creationCompleteHandler(event)" 
+		title="HomeView">
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<s:Image source="assets/images/menu.jpg"
+			 width="100%" 
+			 height="100%"
+			 scaleMode="zoom" />
+	
+	<s:VGroup width="100%"
+			  height="100%"
+			  verticalAlign="middle"
+			  horizontalAlign="center"
+			  visible="{quotesLoaded}"
+			  includeInLayout="{quotesLoaded}">
+		
+		<s:Group>
+			
+			<s:Rect width="100%" 
+					height="100%"
+					radiusX="10"
+					radiusY="10">
+				
+				<s:stroke>
+					<s:SolidColorStroke color="{styleManager.getStyleDeclaration('spark.components.Label').getStyle('color')}" />
+				</s:stroke>
+				
+			</s:Rect>
+			
+			<s:HGroup width="100%"
+					  height="100%"
+					  paddingBottom="10"
+					  paddingLeft="10"
+					  paddingRight="10"
+					  paddingTop="20">
+				
+				<s:Label text="PLAY" click="clickHandler(event)" />
+				
+			</s:HGroup>
+			
+		</s:Group>
+	</s:VGroup>
+	
+	
+	<fx:Script>
+		<![CDATA[
+			import model.proxies.QuoteProxy;
+			import model.vo.QuoteVO;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			
+			[Bindable]
+			private var quotesLoaded :Boolean = false;
+			
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
+				
+				if (QuoteProxy.quotes.length == 0)
+					QuoteProxy.loadQuotes(function () :void
+					{
+						quotesLoaded = true;
+					});
+			}
+			
+			protected function clickHandler(event:MouseEvent):void
+			{
+				navigator.pushView(ThreeLettersView, QuoteProxy.quotes.getItemAt(0));
+			}
+			
+		]]>
+	</fx:Script>
+</s:View>

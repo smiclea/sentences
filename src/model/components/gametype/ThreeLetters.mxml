@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 width="100">
+	
+	<fx:Metadata>
+		[Event(name="textChanged", type="model.events.ThreeLettersEvent")]
+		[Event(name="mistake", type="model.events.ThreeLettersEvent")]
+		[Event(name="complete", type="model.events.ThreeLettersEvent")]
+	</fx:Metadata>
+	
+	<fx:Declarations>
+		<s:Parallel id="effects" 
+					duration="250"
+					effectEnd="effectsEndHandler(event)">
+			
+			<s:Move target="{lbl1}" yTo="-100" />
+			<s:Fade target="{lbl1}" alphaTo="0" />
+			<s:Move target="{lbl2}" xTo="0" />
+			<s:Move target="{lbl3}" xTo="20" />
+			
+		</s:Parallel>
+	</fx:Declarations>
+	
+	<s:Group id="lbl1"
+			 width="35"
+			 height="35">
+		
+		<s:Rect width="100%" 
+				height="100%"
+				radiusX="5"
+				radiusY="5">
+			
+			<s:fill>
+				<s:SolidColor color="{styleManager.getStyleDeclaration('spark.components.Label').getStyle('color')}" />
+			</s:fill>
+		</s:Rect>
+		
+		<s:HGroup width="100%"
+				  height="100%"
+				  verticalAlign="middle"
+				  horizontalAlign="center">
+			
+			<s:Label color="white" text="{fullText.charAt(currentIndex)}" />
+			
+		</s:HGroup>
+		
+	</s:Group>
+	
+	
+	<s:Label id="lbl2"
+			 y="3"
+			 x="35"
+			 text="{fullText.charAt(currentIndex + 1)}" />
+	
+	<s:Label id="lbl3"
+			 y="3"
+			 x="55"
+			 text="{fullText.charAt(currentIndex + 2)}" />
+
+	<fx:Script>
+		<![CDATA[
+			import model.events.ThreeLettersEvent;
+			
+			import mx.events.EffectEvent;
+			
+			[Bindable]
+			public var fullText :String;
+			
+			[Bindable]
+			private var currentIndex :int = 0;
+			
+			public function updateKey(key :String) :void
+			{
+				if (key == fullText.charAt(currentIndex).toUpperCase())
+				{
+					effects.stop();
+					resetLabels();
+					currentIndex++;
+					
+					dispatchEvent(new ThreeLettersEvent(ThreeLettersEvent.TEXT_CHANGED, fullText.substring(0, currentIndex)));
+					
+					effects.play();
+				}
+				else
+					dispatchEvent(new ThreeLettersEvent(ThreeLettersEvent.MISTAKE));
+			}
+			
+			private function resetLabels() :void
+			{
+				lbl1.x = 0;
+				lbl1.y = 0;
+				lbl1.alpha = 1;
+				lbl2.x = 35;
+				lbl3.x = 55;
+			}
+			
+			private function effectsEndHandler (evt :EffectEvent) :void
+			{
+				resetLabels();
+				
+				if (fullText.length == currentIndex)
+					dispatchEvent(new ThreeLettersEvent(ThreeLettersEvent.COMPLETE));
+			}
+			
+		]]>
+	</fx:Script>
+</s:Group>

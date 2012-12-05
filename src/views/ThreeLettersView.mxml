@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:keyboard="model.components.keyboard.*" 
+		xmlns:gametype="model.components.gametype.*"
+		actionBarVisible="false"
+		title="TypeView"
+		creationComplete="creationCompleteHandler(event)">
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<s:Image width="100%" 
+			 height="100%" 
+			 scaleMode="zoom" 
+			 source="@Embed('assets/images/paper.jpg')" />
+	
+	<s:VGroup width="100%" 
+			  height="100%"
+			  paddingBottom="10"
+			  paddingTop="10"
+			  paddingLeft="10"
+			  paddingRight="10">
+		
+		<s:VGroup height="100%"
+				  width="100%">
+			
+			<s:HGroup height="100%">
+				<s:Label text="Score: " />
+				<s:Label text="{score}" />
+			</s:HGroup>
+			
+			<s:Label height="100%"
+					 width="100%"
+					 textAlign="center"
+					 text="{completedText}_" 
+					 styleName="type" />
+		</s:VGroup>
+		
+		<s:HGroup width="100%"
+				  horizontalAlign="center" 
+				  verticalAlign="middle">
+			
+			<s:Label text="Type" />
+			<gametype:ThreeLetters id="threeLetters"
+								   fullText="{fullText}"
+								   textChanged="textChangedHandler(event)"
+								   mistake="mistakeHandler(event)"
+								   complete="threeLetters_completeHandler(event)"/>
+			
+		</s:HGroup>
+		
+		<s:HGroup width="100%" horizontalAlign="center">
+			<keyboard:KeyboardComponent keyPressed="keyPressedHandler(event)"/>
+		</s:HGroup>
+		
+	</s:VGroup>
+	
+	<fx:Script>
+		<![CDATA[
+			import model.components.popup.Popup;
+			import model.components.popup.PopupVew;
+			import model.events.KeyEvent;
+			import model.events.ThreeLettersEvent;
+			
+			import mx.events.FlexEvent;
+			
+			[Bindable]
+			public var fullText :String;
+			
+			[Bindable]
+			private var completedText :String = "";
+			
+			private var _score :Number = 100;
+			
+			private var timer :Timer;
+			
+			[Bindable]
+			public function get score():Number
+			{
+				return _score;
+			}
+
+			public function set score(value:Number):void
+			{
+				if (value <= 0)
+				{
+					_score = 0;
+					destroyView();
+					
+					Popup.showPopup("Sorry!", "You lost", this);
+					return;
+				}
+				
+				_score = value;
+			}
+
+			override public function set data(value:Object):void
+			{
+				super.data = value;
+				
+				fullText = data.text;
+			}
+			
+			private function timerHandler(event :TimerEvent) :void
+			{
+				//score--;
+			}
+			
+			protected function keyPressedHandler(event:KeyEvent):void
+			{
+				threeLetters.updateKey(event.key);
+			}
+			
+			protected function textChangedHandler(event:ThreeLettersEvent):void
+			{
+				completedText = event.text;
+			}
+			
+			protected function mistakeHandler(event:ThreeLettersEvent):void
+			{
+				//score -= 2;
+			}
+			
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				timer = new Timer(1000);
+				timer.addEventListener(TimerEvent.TIMER, timerHandler);
+				timer.start();
+			}
+			
+			protected function threeLetters_completeHandler(event:ThreeLettersEvent):void
+			{
+				destroyView();
+				
+				Popup.showPopup("Congratulations!", "You did a score of " + score, this);
+			}
+			
+			private function destroyView() :void
+			{
+				timer.stop();
+				timer = null;
+				navigator.popView();
+			}
+			
+		]]>
+	</fx:Script>
+</s:View>

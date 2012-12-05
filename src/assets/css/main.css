@@ -1,0 +1,23 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+
+@font-face {
+	src: url("assets/fonts/rough_typewriter.otf");
+	fontFamily: roughTypewriter;
+}
+
+@font-face {
+	src: url("assets/fonts/GranthamLight.ttf");
+	fontFamily: grantham;
+}
+
+.type
+{
+	fontFamily: roughTypewriter
+}
+
+s|Label
+{
+	color: #545454;
+	fontFamily: grantham;
+}

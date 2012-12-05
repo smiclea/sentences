@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 addedToStage="addedToStageHandler(event)" >
+	
+	<fx:Metadata>
+		[Event(name="close", type="flash.events.Event")]
+	</fx:Metadata>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<s:Rect width="100%" height="100%" >
+		<s:fill>
+			<s:SolidColor color="black" alpha="0.5" />
+		</s:fill>
+	</s:Rect>
+	
+	<s:VGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+		<s:Group>
+			<s:Rect width="100%" height="100%" 
+					radiusX="5" 
+					radiusY="5">
+				
+				<s:stroke>
+					<s:SolidColorStroke color="#AAAAAA" />
+				</s:stroke>
+				<s:fill>
+					<s:SolidColor color="white" />
+				</s:fill>
+			</s:Rect>
+				
+			<s:VGroup paddingBottom="20" 
+					  paddingLeft="20" 
+					  paddingRight="20" 
+					  paddingTop="20"
+					  horizontalAlign="center"
+					  gap="20">
+				
+				<s:Label text="{title}" fontWeight="bold" />
+				
+				<s:Label text="{message}" />
+				
+				<s:Button label="OK" click="clickHandler(event)" />
+				
+			</s:VGroup>
+		</s:Group>
+	</s:VGroup>
+	<fx:Script>
+		<![CDATA[
+			import mx.core.FlexGlobals;
+			import mx.managers.PopUpManager;
+			
+			[Bindable]
+			public var message :String = "";
+			
+			[Bindable]
+			public var title :String = "";
+			
+			protected function clickHandler(event:MouseEvent):void
+			{
+				dispatchEvent(new Event(Event.CLOSE));
+				PopUpManager.removePopUp(this);
+			}
+			
+			protected function addedToStageHandler(event:Event):void
+			{
+				width = FlexGlobals.topLevelApplication.width;
+				height = FlexGlobals.topLevelApplication.height;
+			}
+			
+		]]>
+	</fx:Script>
+	
+</s:Group>

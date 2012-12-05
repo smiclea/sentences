@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" xmlns:keyboard="model.components.keyboard.*">
+	
+	<fx:Metadata>
+		[Event(name="keyPressed", type="model.events.KeyEvent")]
+	</fx:Metadata>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<s:VGroup horizontalAlign="center">
+		<s:HGroup>
+			<keyboard:Key key="Q" keyPressed="keyPressedHandler(event)" />
+			<keyboard:Key key="W" keyPressed="keyPressedHandler(event)" />
+			<keyboard:Key key="E" keyPressed="keyPressedHandler(event)" />
+			<keyboard:Key key="R" keyPressed="keyPressedHandler(event)" />
+			<keyboard:Key key="T" keyPressed="keyPressedHandler(event)" />
+			<keyboard:Key key="Y" keyPressed="keyPressedHandler(event)" />
+			<keyboard:Key key="U" keyPressed="keyPressedHandler(event)" />
+			<keyboard:Key key="I" keyPressed="keyPressedHandler(event)" />
+			<keyboard:Key key="O" keyPressed="keyPressedHandler(event)" />
+			<keyboard:Key key="P" keyPressed="keyPressedHandler(event)" />
+		</s:HGroup>
+		<s:HGroup>
+			<keyboard:Key key="A" keyPressed="keyPressedHandler(event)" />
+			<keyboard:Key key="S" keyPressed="keyPressedHandler(event)" />
+			<keyboard:Key key="D" keyPressed="keyPressedHandler(event)" />
+			<keyboard:Key key="F" keyPressed="keyPressedHandler(event)" />
+			<keyboard:Key key="G" keyPressed="keyPressedHandler(event)" />
+			<keyboard:Key key="H" keyPressed="keyPressedHandler(event)" />
+			<keyboard:Key key="J" keyPressed="keyPressedHandler(event)" />
+			<keyboard:Key key="K" keyPressed="keyPressedHandler(event)" />
+			<keyboard:Key key="L" keyPressed="keyPressedHandler(event)" />
+			<keyboard:Key key="'" keyPressed="keyPressedHandler(event)" />
+		</s:HGroup>
+		<s:HGroup>
+			<keyboard:Key key="Z" keyPressed="keyPressedHandler(event)" />
+			<keyboard:Key key="X" keyPressed="keyPressedHandler(event)" />
+			<keyboard:Key key="C" keyPressed="keyPressedHandler(event)" />
+			<keyboard:Key key="V" keyPressed="keyPressedHandler(event)" />
+			<keyboard:Key key="B" keyPressed="keyPressedHandler(event)" />
+			<keyboard:Key key="N" keyPressed="keyPressedHandler(event)" />
+			<keyboard:Key key="M" keyPressed="keyPressedHandler(event)" />
+			<keyboard:Key key="," keyPressed="keyPressedHandler(event)" />
+			<keyboard:Key key="." keyPressed="keyPressedHandler(event)" />
+		</s:HGroup>
+		<keyboard:SpaceKey keyPressed="keyPressedHandler(event)" />
+	</s:VGroup>
+	
+	<fx:Script>
+		<![CDATA[
+			import model.events.KeyEvent;
+			
+			protected function keyPressedHandler(event:KeyEvent):void
+			{
+				dispatchEvent(new KeyEvent(KeyEvent.KEY_PRESSED, event.key));
+			}
+			
+		]]>
+	</fx:Script>
+</s:Group>
